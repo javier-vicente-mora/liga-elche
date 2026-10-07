@@ -321,7 +321,8 @@
 
                 for (let i = 0; i < numJornadas; i++) {
                     let datoJornada = jugador.historial[i];
-                    let contenidoCelda = datoJornada ? `<span class="text-amber-300 font-semibold">${datoJornada.puntos}</span><span class="text-[10px] text-slate-500 block">(${datoJornada.posicion})</span>` : `<span class="text-slate-600">-</span>`;
+                    // Se han eliminado las posiciones entre paréntesis y solo se muestran los puntos:
+                    let contenidoCelda = datoJornada ? `<span class="text-amber-300 font-semibold">${datoJornada.puntos}</span>` : `<span class="text-slate-600">-</span>`;
                     celdasHTML += `<td class="p-3 text-center">${contenidoCelda}</td>`;
                 }
 
