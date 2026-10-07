@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-950 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- METADATOS PARA VISTA PREVIA EN WHATSAPP Y REDES SOCIALES -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Liga Premodern Elche">
+    <meta property="og:description" content="Comunidad, Torneos y Nostalgia MTG en Elche. Consulta clasificaciones, fotos y listas de mazos.">
+    <meta property="og:image" content="https://ligapremodernelche.netlify.app/img/logo.png">
+    <meta property="og:url" content="https://ligapremodernelche.netlify.app/">
+    <title>Liga Premodern Elche - Inicio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="img/logo.png?v=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-bg {
+            background-image: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.95)), url('img/banner.jpg'), url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <header class="sticky top-0 z-40 w-full backdrop-blur-md border-b border-slate-800 bg-slate-950/90 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <img src="img/logo.png" onerror="this.onerror=null; this.src='https://placehold.co/120x120/1e293b/d4af37?text=LPE';" class="h-10 w-10 rounded-full border border-amber-500/40">
+                    <span class="font-extrabold text-xl bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-500 bg-clip-text text-transparent">Liga Premodern Elche</span>
+                </a>
+
+                <!-- Botón Menú Hamburguesa para Móvil -->
+                <button id="menu-btn" onclick="toggleMenu()" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-800 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+
+                <!-- Menú Escritorio -->
+                <nav class="hidden md:flex space-x-1">
+                    <a href="index.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800"><i class="fa-solid fa-house mr-2"></i>Inicio</a>
+                    <a href="clasificacion.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800"><i class="fa-solid fa-trophy mr-2"></i>Clasificación</a>
+                    <a href="fotos.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800"><i class="fa-solid fa-images mr-2"></i>Fotos</a>
+                    <a href="decks.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800"><i class="fa-solid fa-box-archive mr-2"></i>Decks</a>
+                </nav>
+            </div>
+
+            <!-- Menú Desplegable Móvil -->
+            <nav id="menu-movil" class="hidden md:hidden pb-4 pt-2 border-t border-slate-800 flex flex-col space-y-2">
+                <a href="index.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center"><i class="fa-solid fa-house mr-3 w-5"></i>Inicio</a>
+                <a href="clasificacion.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center"><i class="fa-solid fa-trophy mr-3 w-5"></i>Clasificación</a>
+                <a href="fotos.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center"><i class="fa-solid fa-images mr-3 w-5"></i>Fotos</a>
+                <a href="decks.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center"><i class="fa-solid fa-box-archive mr-3 w-5"></i>Decks</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- CONTENIDO INICIO -->
+    <main class="flex-grow">
+        <div class="hero-bg min-h-[400px] flex items-center justify-center p-6 border-b border-slate-800">
+            <div class="border-4 border-white bg-slate-950/85 backdrop-blur-md px-8 py-10 max-w-3xl text-center">
+                <h1 class="text-4xl sm:text-6xl font-black text-white mb-2 uppercase">Liga Premodern Elche</h1>
+                <div class="h-1 w-24 bg-amber-500 mx-auto my-3 rounded-full"></div>
+                <p class="text-amber-400 text-sm sm:text-base font-semibold uppercase tracking-widest">Comunidad, Torneos y Nostalgia MTG</p>
+            </div>
+        </div>
+
+        <div class="max-w-6xl mx-auto px-4 py-12 space-y-8">
+            <!-- MENSAJE DE BIENVENIDA -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 text-center shadow-xl">
+                <h2 class="text-2xl font-bold text-amber-400 mb-2">¡Bienvenidos a la web oficial!</h2>
+                <p class="text-slate-300">Consulta los resultados de la liga, la clasificación, fotos de cada jornada y las listas de mazos.</p>
+            </div>
+
+            <!-- RECUADRO PRÓXIMA JORNADA -->
+            <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 border border-amber-500/30 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-amber-500/5 rounded-full blur-2xl"></div>
+                
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+                    <div class="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+                        <!-- LOGO HOMELANDS -->
+                        <div class="flex-shrink-0 bg-slate-950 p-3 rounded-xl border border-slate-800">
+                            <img src="img/homelands.png" onerror="this.onerror=null; this.src='https://placehold.co/120x120/1e293b/d4af37?text=Homelands';" alt="Homelands Comics" class="h-16 w-auto object-contain">
+                        </div>
+                        
+                        <div>
+                            <span class="inline-block bg-amber-500/10 text-amber-400 text-xs font-bold px-3 py-1 rounded-full border border-amber-500/20 mb-2 uppercase tracking-wider">
+                                <i class="fa-solid fa-calendar-day mr-1.5"></i>Próxima Jornada
+                            </span>
+                            <h3 class="text-xl sm:text-2xl font-bold text-white mb-3">Homelands</h3>
+                            
+                            <!-- DETALLES: FECHA, HORA Y DIRECCIÓN -->
+                            <div class="space-y-1.5 text-slate-300 text-sm">
+                                <p class="flex items-center justify-center sm:justify-start gap-2">
+                                    <i class="fa-regular fa-calendar text-amber-400 w-4 text-center"></i>
+                                    <span>Sábado, 26 de Octubre</span>
+                                </p>
+                                <p class="flex items-center justify-center sm:justify-start gap-2">
+                                    <i class="fa-regular fa-clock text-amber-400 w-4 text-center"></i>
+                                    <span>10:30 h</span>
+                                </p>
+                                <p class="flex items-center justify-center sm:justify-start gap-2">
+                                    <i class="fa-solid fa-location-dot text-amber-400 w-4 text-center"></i>
+                                    <span>Carrer Sant Vicent, 19, 03202 Elx, Alicante</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BOTÓN CÓMO LLEGAR -->
+                    <a href="https://maps.google.com/?q=Carrer+Sant+Vicent,+19,+03202+Elx,+Alicante" target="_blank" class="flex-shrink-0 inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-5 py-3 rounded-xl transition duration-300 shadow-lg shadow-amber-500/10 text-sm">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                        <span>Cómo llegar</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- RECUADRO BASES DEL TORNEO -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl">
+                <div class="flex items-center gap-3 mb-4">
+                    <i class="fa-solid fa-scroll text-amber-400 text-2xl"></i>
+                    <h3 class="text-xl sm:text-2xl font-bold text-amber-400">Bases de la Liga Premodern Elche 2027</h3>
+                </div>
+                <ul class="space-y-3 text-slate-300 text-sm sm:text-base">
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-shield-halved text-amber-400 mt-1"></i>
+                        <span>Se jugarán <strong>10 Jornadas</strong> de liga de <strong>4 Rondas</strong> cada una.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-trophy text-amber-400 mt-1"></i>
+                        <span>Los <strong>16</strong> mejores clasificados de la general jugarán un torneo final con premios del <strong>Bote Acumulado</strong>.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-gift text-amber-400 mt-1"></i>
+                        <span>De los <strong>15€</strong> de la entrada de cada jornada, se destinarán <strong>2€ para el torneo final</strong>.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- CONTADOR DEL BOTE ACUMULADO -->
+            <div class="bg-slate-900 border border-amber-500/30 rounded-2xl p-6 sm:p-8 shadow-xl text-center">
+                <div class="flex items-center justify-center gap-3 mb-2">
+                    <i class="fa-solid fa-coins text-amber-400 text-2xl"></i>
+                    <h3 class="text-xl sm:text-2xl font-bold text-amber-400">Bote Acumulado para la Final</h3>
+                </div>
+                
+                <div class="mt-4">
+                    <span id="bote-total" class="text-5xl sm:text-6xl font-black text-amber-400 tracking-tight">32 €</span>
+                    <p class="text-xs text-slate-400 mt-2">2 € por jugador / jornada</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-slate-950 border-t border-slate-900 py-6 text-center text-slate-500 text-xs">
+        &copy; 2027 Liga Premodern Elche.
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menu-movil');
+            menu.classList.toggle('hidden');
+        }
+
+        // Si en el futuro deseas actualizar las jornadas desde JavaScript, puedes modificar este array:
+        const jugadoresPorJornada = [9, 7, 11]; 
+        const cuotaBote = 2;
+
+        function actualizarBote() {
+            const totalJugadores = jugadoresPorJornada.reduce((acc, curr) => acc + curr, 0);
+            const totalBote = totalJugadores * cuotaBote;
+            
+            document.getElementById('bote-total').textContent = totalBote.toLocaleString('es-ES', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }) + ' €';
+        }
+
+        window.addEventListener('DOMContentLoaded', actualizarBote);
+    </script>
+</body>
+</html>

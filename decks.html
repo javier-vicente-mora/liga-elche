@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-950 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liga Premodern Elche - Estadísticas de Decks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="img/logo.png?v=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <header class="sticky top-0 z-40 w-full backdrop-blur-md border-b border-slate-800 bg-slate-950/90 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <img src="img/logo.png" onerror="this.onerror=null; this.src='https://placehold.co/120x120/1e293b/d4af37?text=LPE';" class="h-10 w-10 rounded-full border border-amber-500/40 object-cover">
+                    <span class="font-extrabold text-xl bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-500 bg-clip-text text-transparent">Liga Premodern Elche</span>
+                </a>
+
+                <button id="menu-btn" onclick="toggleMenu()" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-800 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+
+                <nav class="hidden md:flex space-x-1">
+                    <a href="index.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800"><i class="fa-solid fa-house mr-2"></i>Inicio</a>
+                    <a href="clasificacion.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800"><i class="fa-solid fa-trophy mr-2"></i>Clasificación</a>
+                    <a href="fotos.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800"><i class="fa-solid fa-images mr-2"></i>Fotos</a>
+                    <a href="decks.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-amber-400 bg-slate-900 border border-slate-800"><i class="fa-solid fa-box-archive mr-2"></i>Decks</a>
+                </nav>
+            </div>
+
+            <nav id="menu-movil" class="hidden md:hidden pb-4 pt-2 border-t border-slate-800 flex flex-col space-y-2">
+                <a href="index.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center"><i class="fa-solid fa-house mr-3 w-5"></i>Inicio</a>
+                <a href="clasificacion.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center"><i class="fa-solid fa-trophy mr-3 w-5"></i>Clasificación</a>
+                <a href="fotos.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center"><i class="fa-solid fa-images mr-3 w-5"></i>Fotos</a>
+                <a href="decks.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-amber-400 bg-slate-900 flex items-center"><i class="fa-solid fa-box-archive mr-3 w-5"></i>Decks</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+        <h2 class="text-3xl font-bold text-amber-400 mb-6">Metagame & Estadísticas</h2>
+
+        <!-- RESUMEN DE CARDS -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg flex items-center space-x-4">
+                <div class="p-3 bg-amber-500/10 text-amber-400 rounded-lg text-2xl flex-shrink-0">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-400 font-semibold uppercase">Total Arquetipos</p>
+                    <p id="total-decks" class="text-2xl font-black text-white">0</p>
+                </div>
+            </div>
+            
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg flex items-center space-x-4">
+                <div class="p-3 bg-amber-500/10 text-amber-400 rounded-lg text-2xl flex-shrink-0">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+                <div class="min-w-0 flex-1">
+                    <p class="text-xs text-slate-400 font-semibold uppercase">Mazo Más Popular</p>
+                    <div class="flex items-center space-x-2 mt-1">
+                        <img id="top-deck-img" src="" alt="Mazo popular" onerror="this.onerror=null; this.src='https://placehold.co/80x80/1e293b/d4af37?text=MTG';" class="w-8 h-8 rounded-full object-cover border border-amber-500/40 hidden">
+                        <p id="top-deck" class="text-lg font-bold text-amber-400 truncate">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg flex items-center space-x-4">
+                <div class="p-3 bg-amber-500/10 text-amber-400 rounded-lg text-2xl flex-shrink-0">
+                    <i class="fa-solid fa-percent"></i>
+                </div>
+                <div class="min-w-0 flex-1">
+                    <p class="text-xs text-slate-400 font-semibold uppercase">Mayor Winrate</p>
+                    <div class="flex items-center space-x-2 mt-1">
+                        <img id="top-winrate-deck-img" src="" alt="Mazo mayor winrate" onerror="this.onerror=null; this.src='https://placehold.co/80x80/1e293b/d4af37?text=MTG';" class="w-8 h-8 rounded-full object-cover border border-amber-500/40 hidden">
+                        <p id="top-winrate-deck" class="text-lg font-bold text-emerald-400 truncate">-</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLA DE DECKS -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl overflow-x-auto">
+            <div class="bg-slate-950/60 p-4 border-b border-slate-800 flex justify-between items-center">
+                <h3 class="text-amber-400 font-bold text-lg"><i class="fa-solid fa-chart-pie mr-2"></i>Metagame</h3>
+            </div>
+            <table class="w-full text-left border-collapse min-w-[600px]">
+                <thead>
+                    <tr class="bg-slate-950/90 text-amber-400 text-xs uppercase border-b border-slate-800">
+                        <th class="p-4 text-center">#</th>
+                        <th class="p-4">Arquetipo / Deck</th>
+                        <th class="p-4 text-center">Nº Veces Jugado</th>
+                        <th class="p-4 text-center">Presencia (Meta %)</th>
+                        <th class="p-4 text-center">Winrate (%)</th>
+                    </tr>
+                </thead>
+                <tbody id="body-decks" class="divide-y divide-slate-800 text-sm">
+                    <tr>
+                        <td colspan="5" class="p-6 text-center text-slate-400">Cargando datos del metagame...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer class="bg-slate-950 border-t border-slate-900 py-6 text-center text-slate-500 text-xs">
+        &copy; 2027 Liga Premodern Elche.
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menu-movil');
+            menu.classList.toggle('hidden');
+        }
+
+        const IMAGENES_DECKS = {
+            "Burn": "img/decks/burn.jpg",
+            "Goblins": "img/decks/goblins.jpg",
+            "Stiflenought": "img/decks/stiflenought.jpg",
+            "Replenish": "img/decks/replenish.jpg",
+            "The Rock": "img/decks/therock.jpg",
+            "Terrageddon": "img/decks/terrageddon.jpg",
+            "MonoBlack": "img/decks/monoblack.jpg",
+            "Enchantress": "img/decks/enchantress.jpg",
+            "Madness": "img/decks/madness.jpg",
+            "RG Zoo": "img/decks/zoo.jpg",
+            "Minotauros": "img/decks/minotauros.jpg",
+            "Psychatog": "img/decks/psychatog.jpg", 
+            "Oath": "img/decks/oath.jpg",
+            "Landstill": "img/decks/landstill.jpg",
+            "Full English Breakfast": "img/decks/feb.jpg",
+            "Reanimator": "img/decks/reanimator.jpg",
+            "Stasis": "img/decks/stasis.jpg"
+
+        };
+
+        function obtenerImagenDeck(nombreDeck) {
+            if (IMAGENES_DECKS[nombreDeck]) {
+                return IMAGENES_DECKS[nombreDeck];
+            }
+            const nombreNormalizado = nombreDeck.toLowerCase().replace(/\s+/g, '');
+            return `img/decks/${nombreNormalizado}.jpg`;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const PUNTOS_MAX_POR_JORNADA = 12; 
+
+            fetch('clasificacion.html')
+                .then(response => {
+                    if (!response.ok) throw new Error('No se pudo cargar clasificacion.html');
+                    return response.text();
+                })
+                .then(htmlText => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(htmlText, 'text/html');
+
+                    const TOTAL_JORNADAS = 10;
+                    const estadisticasDecks = {};
+                    let usosTotales = 0;
+
+                    for (let i = 1; i <= TOTAL_JORNADAS; i++) {
+                        const tablaTorneo = doc.getElementById(`tabla-torneo${i}`);
+                        if (!tablaTorneo) continue;
+
+                        const filas = tablaTorneo.querySelectorAll('tbody tr');
+                        filas.forEach(fila => {
+                            const deckEl = fila.querySelector('.jugador-deck');
+                            const puntosEl = fila.querySelector('.jugador-puntos');
+
+                            if (deckEl && puntosEl) {
+                                const deck = deckEl.textContent.trim();
+                                const puntos = parseInt(puntosEl.textContent, 10) || 0;
+
+                                if (!deck || deck === '-') return;
+
+                                if (!estadisticasDecks[deck]) {
+                                    estadisticasDecks[deck] = {
+                                        nombre: deck,
+                                        vecesJugado: 0,
+                                        puntosTotales: 0
+                                    };
+                                }
+
+                                estadisticasDecks[deck].vecesJugado += 1;
+                                estadisticasDecks[deck].puntosTotales += puntos;
+                                usosTotales += 1;
+                            }
+                        });
+                    }
+
+                    const listaDecks = Object.values(estadisticasDecks).map(item => {
+                        const maxPuntosPosibles = item.vecesJugado * PUNTOS_MAX_POR_JORNADA;
+                        const winrate = maxPuntosPosibles > 0 
+                            ? Math.min(((item.puntosTotales / maxPuntosPosibles) * 100), 100).toFixed(1) 
+                            : '0.0';
+                        return { ...item, winrate: parseFloat(winrate) };
+                    });
+
+                    listaDecks.sort((a, b) => b.vecesJugado - a.vecesJugado || b.winrate - a.winrate);
+
+                    const topWinrateDeck = [...listaDecks].sort((a, b) => b.winrate - a.winrate)[0];
+
+                    document.getElementById('total-decks').textContent = listaDecks.length;
+                    
+                    // Actualización Mazo Más Popular
+                    if (listaDecks.length > 0) {
+                        const topPopular = listaDecks[0];
+                        document.getElementById('top-deck').textContent = topPopular.nombre;
+                        const imgPopular = document.getElementById('top-deck-img');
+                        imgPopular.src = obtenerImagenDeck(topPopular.nombre);
+                        imgPopular.classList.remove('hidden');
+                    } else {
+                        document.getElementById('top-deck').textContent = '-';
+                    }
+
+                    // Actualización Mayor Winrate
+                    if (topWinrateDeck) {
+                        document.getElementById('top-winrate-deck').textContent = `${topWinrateDeck.nombre} (${topWinrateDeck.winrate}%)`;
+                        const imgWinrate = document.getElementById('top-winrate-deck-img');
+                        imgWinrate.src = obtenerImagenDeck(topWinrateDeck.nombre);
+                        imgWinrate.classList.remove('hidden');
+                    } else {
+                        document.getElementById('top-winrate-deck').textContent = '-';
+                    }
+
+                    const bodyDecks = document.getElementById('body-decks');
+                    bodyDecks.innerHTML = '';
+
+                    if (listaDecks.length === 0) {
+                        bodyDecks.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400">No hay datos de mazos registrados.</td></tr>`;
+                        return;
+                    }
+
+                    listaDecks.forEach((item, index) => {
+                        const metaPorcentaje = usosTotales > 0 ? ((item.vecesJugado / usosTotales) * 100).toFixed(1) : 0;
+                        
+                        let winrateColor = 'text-slate-300';
+                        if (item.winrate >= 60) winrateColor = 'text-emerald-400 font-bold';
+                        else if (item.winrate < 40) winrateColor = 'text-red-400';
+
+                        const rutaImagen = obtenerImagenDeck(item.nombre);
+
+                        const tr = document.createElement('tr');
+                        tr.className = 'hover:bg-slate-800/50 transition border-b border-slate-800/50';
+                        tr.innerHTML = `
+                            <td class="p-4 text-center font-bold text-amber-400">#${index + 1}</td>
+                            <td class="p-4 font-bold text-white">
+                                <div class="flex items-center space-x-3">
+                                    <img src="${rutaImagen}" 
+                                         alt="${item.nombre}" 
+                                         onerror="this.onerror=null; this.src='https://placehold.co/80x80/1e293b/d4af37?text=MTG';" 
+                                         class="w-9 h-9 rounded-full object-cover border border-amber-500/40 shadow-sm flex-shrink-0">
+                                    <span>${item.nombre}</span>
+                                </div>
+                            </td>
+                            <td class="p-4 text-center font-semibold text-slate-300">${item.vecesJugado}</td>
+                            <td class="p-4 text-center">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <span class="text-amber-300 font-bold">${metaPorcentaje}%</span>
+                                    <div class="w-16 bg-slate-800 rounded-full h-1.5 hidden sm:block">
+                                        <div class="bg-amber-400 h-1.5 rounded-full" style="width: ${Math.min(metaPorcentaje, 100)}%"></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="p-4 text-center font-bold ${winrateColor}">
+                                ${item.winrate}%
+                            </td>
+                        `;
+                        bodyDecks.appendChild(tr);
+                    });
+                })
+                .catch(err => {
+                    console.error('Error:', err);
+                });
+        });
+    </script>
+</body>
+</html>

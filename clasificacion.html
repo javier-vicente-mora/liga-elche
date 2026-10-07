@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-950 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liga Premodern Elche - Clasificación</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="img/logo.png?v=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <header class="sticky top-0 z-40 w-full backdrop-blur-md border-b border-slate-800 bg-slate-950/90 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <img src="img/logo.png" onerror="this.onerror=null; this.src='https://placehold.co/120x120/1e293b/d4af37?text=LPE';" class="h-10 w-10 rounded-full border border-amber-500/40">
+                    <span class="font-extrabold text-xl bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-500 bg-clip-text text-transparent">Liga Premodern Elche</span>
+                </a>
+
+                <!-- Botón Menú Hamburguesa -->
+                <button id="menu-btn" onclick="toggleMenu()" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-800 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+
+                <!-- Menú Escritorio -->
+                <nav class="hidden md:flex space-x-1">
+                    <a href="index.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800"><i class="fa-solid fa-house mr-2"></i>Inicio</a>
+                    <a href="clasificacion.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800"><i class="fa-solid fa-trophy mr-2"></i>Clasificación</a>
+                    <a href="fotos.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800"><i class="fa-solid fa-images mr-2"></i>Fotos</a>
+                    <a href="decks.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800"><i class="fa-solid fa-box-archive mr-2"></i>Decks</a>
+                </nav>
+            </div>
+
+            <!-- Menú Desplegable Móvil -->
+            <nav id="menu-movil" class="hidden md:hidden pb-4 pt-2 border-t border-slate-800 flex flex-col space-y-2">
+                <a href="index.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center"><i class="fa-solid fa-house mr-3 w-5"></i>Inicio</a>
+                <a href="clasificacion.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center"><i class="fa-solid fa-trophy mr-3 w-5"></i>Clasificación</a>
+                <a href="fotos.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center"><i class="fa-solid fa-images mr-3 w-5"></i>Fotos</a>
+                <a href="decks.html" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center"><i class="fa-solid fa-box-archive mr-3 w-5"></i>Decks</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+        <h2 class="text-3xl font-bold text-amber-400 mb-6">Clasificación de la Liga</h2>
+
+        <!-- PESTAÑAS DE NAVEGACIÓN -->
+        <div class="flex flex-wrap gap-2 mb-6 border-b border-slate-800 pb-4">
+            <button onclick="verTabla('general')" id="tab-general" class="btn-tab px-4 py-2 rounded-lg text-sm font-bold bg-amber-500 text-slate-950 transition">General</button>
+            <button onclick="verTabla('torneo1')" id="tab-torneo1" class="btn-tab px-3 py-2 rounded-lg text-sm font-semibold bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white transition border border-slate-800">J1</button>
+            <button onclick="verTabla('torneo2')" id="tab-torneo2" class="btn-tab px-3 py-2 rounded-lg text-sm font-semibold bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white transition border border-slate-800">J2</button>
+            <button onclick="verTabla('torneo3')" id="tab-torneo3" class="btn-tab px-3 py-2 rounded-lg text-sm font-semibold bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white transition border border-slate-800">J3</button>
+            <button onclick="verTabla('torneo4')" id="tab-torneo4" class="btn-tab px-3 py-2 rounded-lg text-sm font-semibold bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white transition border border-slate-800">J4</button>
+            <button onclick="verTabla('torneo5')" id="tab-torneo5" class="btn-tab px-3 py-2 rounded-lg text-sm font-semibold bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white transition border border-slate-800">J5</button>
+            <button onclick="verTabla('torneo6')" id="tab-torneo6" class="btn-tab px-3 py-2 rounded-lg text-sm font-semibold bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white transition border border-slate-800">J6</button>
+            <button onclick="verTabla('torneo7')" id="tab-torneo7" class="btn-tab px-3 py-2 rounded-lg text-sm font-semibold bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white transition border border-slate-800">J7</button>
+            <button onclick="verTabla('torneo8')" id="tab-torneo8" class="btn-tab px-3 py-2 rounded-lg text-sm font-semibold bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white transition border border-slate-800">J8</button>
+            <button onclick="verTabla('torneo9')" id="tab-torneo9" class="btn-tab px-3 py-2 rounded-lg text-sm font-semibold bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white transition border border-slate-800">J9</button>
+            <button onclick="verTabla('torneo10')" id="tab-torneo10" class="btn-tab px-3 py-2 rounded-lg text-sm font-semibold bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white transition border border-slate-800">J10</button>
+        </div>
+
+        <!-- TABLA GENERAL -->
+        <div id="tabla-general" class="tabla-content bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl overflow-x-auto">
+            <div class="bg-slate-950/60 p-4 border-b border-slate-800 flex justify-between items-center min-w-[800px]">
+                <h3 class="text-amber-400 font-bold text-lg"><i class="fa-solid fa-chart-line mr-2"></i>Clasificación General <span class="text-xs text-slate-400 font-normal ml-2">(Haz clic en un jugador para ver sus estadísticas)</span></h3>
+            </div>
+            <table class="w-full text-left border-collapse min-w-[800px]">
+                <thead>
+                    <tr class="bg-slate-950/90 text-amber-400 text-xs uppercase border-b border-slate-800">
+                        <th class="p-3 text-center">Pos</th>
+                        <th class="p-3">Jugador</th>
+                        <th class="p-3 text-center">J1</th>
+                        <th class="p-3 text-center">J2</th>
+                        <th class="p-3 text-center">J3</th>
+                        <th class="p-3 text-center">J4</th>
+                        <th class="p-3 text-center">J5</th>
+                        <th class="p-3 text-center">J6</th>
+                        <th class="p-3 text-center">J7</th>
+                        <th class="p-3 text-center">J8</th>
+                        <th class="p-3 text-center">J9</th>
+                        <th class="p-3 text-center">J10</th>
+                        <th class="p-3 text-center font-bold">Total</th>
+                    </tr>
+                </thead>
+                <tbody id="body-general" class="divide-y divide-slate-800 text-sm">
+                    <!-- Se genera dinámicamente con JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TABLAS INDIVIDUALES -->
+        <!-- Torneo 1 -->
+        <div id="tabla-torneo1" class="tabla-content hidden bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+            <div class="bg-slate-950/60 p-4 border-b border-slate-800"><h3 class="text-amber-400 font-bold text-lg"><i class="fa-solid fa-trophy mr-2"></i>Resultados - Jornada 1</h3></div>
+            <table class="w-full text-left border-collapse">
+                <thead><tr class="bg-slate-950/90 text-amber-400 text-xs uppercase border-b border-slate-800"><th class="p-4 text-center">Pos</th><th class="p-4">Jugador</th><th class="p-4 text-center">Deck</th><th class="p-4 text-center">Puntos</th></tr></thead>
+                <tbody class="divide-y divide-slate-800 text-sm">
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#1</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/javier_vicente.png" onerror="this.src='https://ui-avatars.com/api/?name=Javier+Vicente&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-amber-400" alt="Javier Vicente"><span>Javier Vicente "Icy"</span></td><td class="p-4 text-center text-slate-300 jugador-deck">The Rock</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">12 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#2</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/josan.png" onerror="this.src='https://ui-avatars.com/api/?name=Josan+Perez&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Josan Perez"><span>Josan Pérez</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Stasis</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">10 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#3</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/cache.png" onerror="this.src='https://ui-avatars.com/api/?name=Cache&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Cache"><span>Cache</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Goblins</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">9 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#4</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/nacho.png" onerror="this.src='https://ui-avatars.com/api/?name=Nacho+Diaz&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Nacho Diaz"><span>Nacho Diaz</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Replenish</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">9 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#5</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/patricio.png" onerror="this.src='https://ui-avatars.com/api/?name=Patricio&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Patricio"><span>Patricio</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Full English Breakfast</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">6 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#6</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/carlos_berna.png" onerror="this.src='https://ui-avatars.com/api/?name=Carlos+Berna&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Carlos Berna"><span>Carlos Berna</span></td><td class="p-4 text-center text-slate-300 jugador-deck">MonoBlack</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">6 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#7</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/juanra.png" onerror="this.src='https://ui-avatars.com/api/?name=Juanra&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Juanra"><span>Juanra</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Madness</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">4 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#8</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/alberto_moreno.png" onerror="this.src='https://ui-avatars.com/api/?name=Alberto+Moreno&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Alberto Moreno"><span>Alberto Moreno</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Landstill</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">3 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#9</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/antonio_meseguer.png" onerror="this.src='https://ui-avatars.com/api/?name=Antonio+Meseguer&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Antonio Meseguer"><span>Antonio Meseguer</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Stiflenought</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">3 pts</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Torneo 2 -->
+        <div id="tabla-torneo2" class="tabla-content hidden bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+            <div class="bg-slate-950/60 p-4 border-b border-slate-800"><h3 class="text-amber-400 font-bold text-lg"><i class="fa-solid fa-trophy mr-2"></i>Resultados - Jornada 2</h3></div>
+            <table class="w-full text-left border-collapse">
+                <thead><tr class="bg-slate-950/90 text-amber-400 text-xs uppercase border-b border-slate-800"><th class="p-4 text-center">Pos</th><th class="p-4">Jugador</th><th class="p-4 text-center">Deck</th><th class="p-4 text-center">Puntos</th></tr></thead>
+                <tbody class="divide-y divide-slate-800 text-sm">
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#1</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/antonio_meseguer.png" onerror="this.src='https://ui-avatars.com/api/?name=Antonio+Meseguer&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-amber-400" alt="Antonio Meseguer"><span>Antonio Meseguer</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Stiflenought</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">10 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#2</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/husam.png" onerror="this.src='https://ui-avatars.com/api/?name=Husam&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Husam"><span>Husam</span></td><td class="p-4 text-center text-slate-300 jugador-deck">RG Zoo</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">9 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#3</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/alberto_moreno.png" onerror="this.src='https://ui-avatars.com/api/?name=Alberto+Moreno&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Alberto Moreno"><span>Alberto Moreno</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Landstill</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">7 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#4</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/carlos_berna.png" onerror="this.src='https://ui-avatars.com/api/?name=Carlos+Berna&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Carlos Berna"><span>Carlos Berna</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Burn</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">6 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#5</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/efren.png" onerror="this.src='https://ui-avatars.com/api/?name=Efren&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Efren"><span>Efren</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Enchantress</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">3 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#6</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/pitu.png" onerror="this.src='https://ui-avatars.com/api/?name=Pitu&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Pitu"><span>Pitu</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Goblins</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">3 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#7</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/javier_vicente.png" onerror="this.src='https://ui-avatars.com/api/?name=Javier+Vicente&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Javier Vicente"><span>Javier Vicente "Icy"</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Goblins</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">3 pts</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Torneo 3 -->
+        <div id="tabla-torneo3" class="tabla-content hidden bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+            <div class="bg-slate-950/60 p-4 border-b border-slate-800"><h3 class="text-amber-400 font-bold text-lg"><i class="fa-solid fa-trophy mr-2"></i>Resultados - Jornada 3</h3></div>
+            <table class="w-full text-left border-collapse">
+                <thead><tr class="bg-slate-950/90 text-amber-400 text-xs uppercase border-b border-slate-800"><th class="p-4 text-center">Pos</th><th class="p-4">Jugador</th><th class="p-4 text-center">Deck</th><th class="p-4 text-center">Puntos</th></tr></thead>
+                <tbody class="divide-y divide-slate-800 text-sm">
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#1</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/oscar_gomez.png" onerror="this.src='https://ui-avatars.com/api/?name=Oscar+Gomez&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-amber-400" alt="Óscar Gómez"><span>Óscar Gómez</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Minotauros</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">12 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#2</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/antonio_bastida.png" onerror="this.src='https://ui-avatars.com/api/?name=Antonio+Bastida&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Antonio Bastida"><span>Antonio Bastida</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Psychatog</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">9 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#3</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/daniel_bernabeu.png" onerror="this.src='https://ui-avatars.com/api/?name=Daniel+Bernabeu&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Daniel Bernabeu"><span>Daniel Bernabeú</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Oath</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">7 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#4</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/carlos_berna.png" onerror="this.src='https://ui-avatars.com/api/?name=Carlos+Berna&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Carlos Berna"><span>Carlos Berna</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Burn</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">7 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#5</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/efren.png" onerror="this.src='https://ui-avatars.com/api/?name=Efren&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Efren"><span>Efren</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Landstill</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">6 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#6</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/pitu.png" onerror="this.src='https://ui-avatars.com/api/?name=Pitu&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Pitu"><span>Pitu</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Goblins</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">6 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#7</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/javier_vicente.png" onerror="this.src='https://ui-avatars.com/api/?name=Javier+Vicente&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Javier Vicente"><span>Javier Vicente "Icy"</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Full English Breakfast</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">3 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#8</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/joserra.png" onerror="this.src='https://ui-avatars.com/api/?name=Jose+Ramon+Soler&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Jose Ramón Soler"><span>Jose Ramón Soler</span></td><td class="p-4 text-center text-slate-300 jugador-deck">MonoBlack</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">3 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#9</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/recio.png" onerror="this.src='https://ui-avatars.com/api/?name=Recio&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Recio"><span>Recio</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Full English Breakfast</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">1 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#10</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/carlos_garrido.png" onerror="this.src='https://ui-avatars.com/api/?name=Carlos+Garrido&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Carlos Garrido"><span>Carlos Garrido</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Oath</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">1 pts</td></tr>
+                    <tr><td class="p-4 text-center text-amber-400 font-bold">#11</td><td class="p-4 font-bold jugador-nombre flex items-center space-x-3"><img src="img/jugadores/juan_manuel_lillo.png" onerror="this.src='https://ui-avatars.com/api/?name=Juan+Manuel+Lillo&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border-2 border-slate-700" alt="Juan Manuel Lillo"><span>Juan Manuel Lillo</span></td><td class="p-4 text-center text-slate-300 jugador-deck">Oath</td><td class="p-4 text-center font-bold text-amber-300 jugador-puntos">1 pts</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Contenedores para Jornadas 4 a 10 (Se pueden ir rellenando) -->
+        <div id="tabla-torneo4" class="tabla-content hidden bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl p-6 text-center text-slate-400">Jornada 4 aún no disputada.</div>
+        <div id="tabla-torneo5" class="tabla-content hidden bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl p-6 text-center text-slate-400">Jornada 5 aún no disputada.</div>
+        <div id="tabla-torneo6" class="tabla-content hidden bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl p-6 text-center text-slate-400">Jornada 6 aún no disputada.</div>
+        <div id="tabla-torneo7" class="tabla-content hidden bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl p-6 text-center text-slate-400">Jornada 7 aún no disputada.</div>
+        <div id="tabla-torneo8" class="tabla-content hidden bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl p-6 text-center text-slate-400">Jornada 8 aún no disputada.</div>
+        <div id="tabla-torneo9" class="tabla-content hidden bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl p-6 text-center text-slate-400">Jornada 9 aún no disputada.</div>
+        <div id="tabla-torneo10" class="tabla-content hidden bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl p-6 text-center text-slate-400">Jornada 10 aún no disputada.</div>
+
+    </main>
+
+    <!-- MODAL DE ESTADÍSTICAS DE JUGADOR -->
+    <div id="modal-jugador" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-900 border border-amber-500/30 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl my-8 transform transition-all">
+            <!-- Modal Header -->
+            <div class="relative bg-gradient-to-r from-amber-950/50 via-slate-900 to-slate-900 p-6 border-b border-slate-800 flex items-center space-x-6">
+                <button onclick="cerrarModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-700 w-8 h-8 rounded-full flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <img id="modal-foto" src="" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-amber-400 shadow-xl">
+                <div>
+                    <h3 id="modal-nombre" class="text-2xl sm:text-3xl font-extrabold text-amber-400"></h3>
+                    <p class="text-slate-400 text-sm mt-1"><i class="fa-solid fa-id-card mr-2 text-amber-500"></i>Perfil del Jugador</p>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-6 max-h-[75vh] overflow-y-auto">
+                <!-- Tarjetas de Estadísticas Principales -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-center">
+                        <span class="text-slate-400 text-xs uppercase font-bold block mb-1">Puntos Totales</span>
+                        <span id="modal-pts" class="text-2xl font-black text-amber-400">0</span>
+                    </div>
+                    <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-center">
+                        <span class="text-slate-400 text-xs uppercase font-bold block mb-1">Jornadas Jugadas</span>
+                        <span id="modal-jornadas" class="text-2xl font-black text-slate-100">0</span>
+                    </div>                      
+                    <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-center">
+                        <span class="text-slate-400 text-xs uppercase font-bold block mb-1">Pts / Jornada</span>
+                        <span id="modal-promedio" class="text-2xl font-black text-sky-400">0</span>
+                    </div>                    
+                    <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-center">
+                        <span class="text-slate-400 text-xs uppercase font-bold block mb-1">Winrate</span>
+                        <span id="modal-winrate" class="text-2xl font-black text-emerald-400">0%</span>
+                    </div>
+                </div>
+
+                <!-- Mazos Utilizados -->
+                <div>
+                    <h4 class="text-lg font-bold text-amber-300 mb-3 flex items-center">
+                        <i class="fa-solid fa-box-archive mr-2"></i> Mazos Jugados
+                    </h4>
+                    <div id="modal-mazos" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Generado por JS -->
+                    </div>
+                </div>
+
+                <!-- Historial por Jornada -->
+                <div>
+                    <h4 class="text-lg font-bold text-amber-300 mb-3 flex items-center">
+                        <i class="fa-solid fa-clock-rotate-left mr-2"></i> Historial de Torneos
+                    </h4>
+                    <div class="bg-slate-950/50 border border-slate-800 rounded-xl overflow-hidden">
+                        <table class="w-full text-left text-sm">
+                            <thead>
+                                <tr class="bg-slate-950 text-slate-400 text-xs uppercase border-b border-slate-800">
+                                    <th class="p-3">Jornada</th>
+                                    <th class="p-3">Posición</th>
+                                    <th class="p-3">Mazo</th>
+                                    <th class="p-3 text-right">Puntos</th>
+                                </tr>
+                            </thead>
+                            <tbody id="modal-historial" class="divide-y divide-slate-800">
+                                <!-- Generado por JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT PRINCIPAL -->
+    <script>
+        let DB_JUGADORES = {};
+
+        function toggleMenu() {
+            document.getElementById('menu-movil').classList.toggle('hidden');
+        }
+
+        function verTabla(id) {
+            document.querySelectorAll('.tabla-content').forEach(t => t.classList.add('hidden'));
+            document.querySelectorAll('.btn-tab').forEach(b => {
+                b.classList.remove('bg-amber-500', 'text-slate-950', 'font-bold');
+                b.classList.add('bg-slate-900', 'text-slate-300', 'hover:bg-slate-800');
+            });
+
+            document.getElementById('tabla-' + id).classList.remove('hidden');
+            const btn = document.getElementById('tab-' + id);
+            if (btn) {
+                btn.classList.remove('bg-slate-900', 'text-slate-300', 'hover:bg-slate-800');
+                btn.classList.add('bg-amber-500', 'text-slate-950', 'font-bold');
+            }
+        }
+
+        function procesarDatos() {
+            DB_JUGADORES = {};
+
+            for (let j = 1; j <= 10; j++) {
+                const tablaTorneo = document.getElementById(`tabla-torneo${j}`);
+                if (!tablaTorneo) continue;
+
+                const filas = tablaTorneo.querySelectorAll('tbody tr');
+                filas.forEach(fila => {
+                    const celdas = fila.querySelectorAll('td');
+                    if (celdas.length < 4) return;
+
+                    const posTexto = celdas[0].textContent.trim();
+                    const pos = parseInt(posTexto.replace('#', '')) || 0;
+                    const nombreSpans = celdas[1].querySelectorAll('span');
+                    const nombre = nombreSpans.length > 0 ? nombreSpans[0].textContent.trim() : celdas[1].textContent.trim();
+                    const img = celdas[1].querySelector('img');
+                    const foto = img ? img.src : '';
+                    const deck = celdas[2].textContent.trim();
+                    const ptsTexto = celdas[3].textContent.trim();
+                    const pts = parseInt(ptsTexto.replace('pts', '').trim()) || 0;
+
+                    if (!DB_JUGADORES[nombre]) {
+                        DB_JUGADORES[nombre] = {
+                            nombre: nombre,
+                            foto: foto,
+                            jornadas: {},
+                            totalPuntos: 0,
+                            mazos: {}
+                        };
+                    }
+
+                    DB_JUGADORES[nombre].jornadas[`j${j}`] = { pos, pts, deck };
+                    DB_JUGADORES[nombre].totalPuntos += pts;
+                    DB_JUGADORES[nombre].mazos[deck] = (DB_JUGADORES[nombre].mazos[deck] || 0) + 1;
+                });
+            }
+
+            generarTablaGeneral();
+        }
+
+        function generarTablaGeneral() {
+            const tbody = document.getElementById('body-general');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            const listaJugadores = Object.values(DB_JUGADORES).sort((a, b) => b.totalPuntos - a.totalPuntos);
+
+            listaJugadores.forEach((jugador, index) => {
+                const posicion = index + 1;
+
+                // 🟢 PUESTOS 1 AL 16: VERDE (emerald-400)
+                // 🔴 PUESTOS 17+: ROJO (rose-400)
+                const colorPosicion = posicion <= 16 
+                    ? 'text-emerald-400 font-extrabold' 
+                    : 'text-rose-400 font-extrabold';
+
+                const fila = document.createElement('tr');
+                fila.className = 'hover:bg-slate-800/50 transition cursor-pointer';
+                fila.onclick = () => abrirModal(jugador.nombre);
+
+                let celdasJornadas = '';
+                for (let j = 1; j <= 10; j++) {
+                    const datosJ = jugador.jornadas[`j${j}`];
+                    celdasJornadas += `<td class="p-3 text-center text-slate-400">${datosJ ? datosJ.pts : '-'}</td>`;
+                }
+
+                fila.innerHTML = `
+                    <td class="p-3 text-center ${colorPosicion}">#${posicion}</td>
+                    <td class="p-3 font-semibold text-slate-200 flex items-center space-x-3">
+                        <img src="${jugador.foto}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(jugador.nombre)}&background=0f172a&color=f59e0b';" class="w-7 h-7 rounded-full object-cover border border-slate-700">
+                        <span>${jugador.nombre}</span>
+                    </td>
+                    ${celdasJornadas}
+                    <td class="p-3 text-center font-black text-amber-400">${jugador.totalPuntos}</td>
+                `;
+
+                tbody.appendChild(fila);
+            });
+        }
+
+        function abrirModal(nombre) {
+            const jugador = DB_JUGADORES[nombre];
+            if (!jugador) return;
+
+            document.getElementById('modal-nombre').textContent = jugador.nombre;
+            document.getElementById('modal-foto').src = jugador.foto;
+            document.getElementById('modal-pts').textContent = jugador.totalPuntos;
+
+            const numJornadas = Object.keys(jugador.jornadas).length;
+            document.getElementById('modal-jornadas').textContent = numJornadas;
+
+            const promedio = numJornadas > 0 ? (jugador.totalPuntos / numJornadas).toFixed(1) : '0';
+            document.getElementById('modal-promedio').textContent = promedio;
+
+            const maxPtsPosibles = numJornadas * 12;
+            const winrate = maxPtsPosibles > 0 ? Math.round((jugador.totalPuntos / maxPtsPosibles) * 100) : 0;
+            document.getElementById('modal-winrate').textContent = `${winrate}%`;
+
+            const contenedorMazos = document.getElementById('modal-mazos');
+            contenedorMazos.innerHTML = '';
+            Object.entries(jugador.mazos).forEach(([deck, cant]) => {
+                const div = document.createElement('div');
+                div.className = 'bg-slate-950/60 border border-slate-800 p-3 rounded-lg flex justify-between items-center';
+                div.innerHTML = `<span class="font-medium text-slate-200">${deck}</span> <span class="text-xs bg-amber-500/20 text-amber-400 px-2 py-1 rounded font-bold">${cant} torneo(s)</span>`;
+                contenedorMazos.appendChild(div);
+            });
+
+            const tbodyHistorial = document.getElementById('modal-historial');
+            tbodyHistorial.innerHTML = '';
+            for (let j = 1; j <= 10; j++) {
+                const datos = jugador.jornadas[`j${j}`];
+                if (datos) {
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-slate-900/50';
+                    tr.innerHTML = `
+                        <td class="p-3 text-slate-300">Jornada ${j}</td>
+                        <td class="p-3 text-amber-400 font-bold">#${datos.pos}</td>
+                        <td class="p-3 text-slate-300">${datos.deck}</td>
+                        <td class="p-3 text-right font-bold text-amber-300">${datos.pts} pts</td>
+                    `;
+                    tbodyHistorial.appendChild(tr);
+                }
+            }
+
+            document.getElementById('modal-jugador').classList.remove('hidden');
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal-jugador').classList.add('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            procesarDatos();
+        });
+    </script>
+</body>
+</html>
