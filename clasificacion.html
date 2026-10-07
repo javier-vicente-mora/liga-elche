@@ -148,7 +148,7 @@
             </table>
         </div>
 
-        <!-- Contenedores para Jornadas 4 a 10 (Se pueden ir rellenando) -->
+        <!-- Contenedores para Jornadas 4 a 10 -->
         <div id="tabla-torneo4" class="tabla-content hidden bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl p-6 text-center text-slate-400">Jornada 4 aún no disputada.</div>
         <div id="tabla-torneo5" class="tabla-content hidden bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl p-6 text-center text-slate-400">Jornada 5 aún no disputada.</div>
         <div id="tabla-torneo6" class="tabla-content hidden bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl p-6 text-center text-slate-400">Jornada 6 aún no disputada.</div>
@@ -184,11 +184,11 @@
                     <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-center">
                         <span class="text-slate-400 text-xs uppercase font-bold block mb-1">Jornadas Jugadas</span>
                         <span id="modal-jornadas" class="text-2xl font-black text-slate-100">0</span>
-                    </div>                      
+                    </div>                    
                     <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-center">
                         <span class="text-slate-400 text-xs uppercase font-bold block mb-1">Pts / Jornada</span>
                         <span id="modal-promedio" class="text-2xl font-black text-sky-400">0</span>
-                    </div>                    
+                    </div>                   
                     <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-center">
                         <span class="text-slate-400 text-xs uppercase font-bold block mb-1">Winrate</span>
                         <span id="modal-winrate" class="text-2xl font-black text-emerald-400">0%</span>
@@ -201,7 +201,7 @@
                         <i class="fa-solid fa-box-archive mr-2"></i> Mazos Jugados
                     </h4>
                     <div id="modal-mazos" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <!-- Generado por JS -->
+                        <!-- Generado por JS con Winrate por mazo -->
                     </div>
                 </div>
 
@@ -230,153 +230,160 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT PRINCIPAL -->
+    <!-- SCRIPT DE LÓGICA Y CÁLCULO DE CLASIFICACIÓN / WINRATE POR MAZO -->
     <script>
-        let DB_JUGADORES = {};
-
         function toggleMenu() {
-            document.getElementById('menu-movil').classList.toggle('hidden');
+            const menu = document.getElementById('menu-movil');
+            menu.classList.toggle('hidden');
         }
 
         function verTabla(id) {
-            document.querySelectorAll('.tabla-content').forEach(t => t.classList.add('hidden'));
-            document.querySelectorAll('.btn-tab').forEach(b => {
-                b.classList.remove('bg-amber-500', 'text-slate-950', 'font-bold');
-                b.classList.add('bg-slate-900', 'text-slate-300', 'hover:bg-slate-800');
-            });
-
+            document.querySelectorAll('.tabla-content').forEach(el => el.classList.add('hidden'));
             document.getElementById('tabla-' + id).classList.remove('hidden');
-            const btn = document.getElementById('tab-' + id);
-            if (btn) {
-                btn.classList.remove('bg-slate-900', 'text-slate-300', 'hover:bg-slate-800');
-                btn.classList.add('bg-amber-500', 'text-slate-950', 'font-bold');
-            }
+
+            document.querySelectorAll('.btn-tab').forEach(btn => {
+                btn.classList.remove('bg-amber-500', 'text-slate-950', 'font-bold');
+                btn.classList.add('bg-slate-900', 'text-slate-300', 'font-semibold');
+            });
+            const activeTab = document.getElementById('tab-' + id);
+            activeTab.classList.remove('bg-slate-900', 'text-slate-300', 'font-semibold');
+            activeTab.classList.add('bg-amber-500', 'text-slate-950', 'font-bold');
         }
 
-        function procesarDatos() {
-            DB_JUGADORES = {};
+        // Base de datos de jugadores y procesamiento automático
+        const numJornadas = 10;
+        let datosJugadores = {};
 
-            for (let j = 1; j <= 10; j++) {
-                const tablaTorneo = document.getElementById(`tabla-torneo${j}`);
-                if (!tablaTorneo) continue;
+        function procesarDatosTorneos() {
+            datosJugadores = {};
 
-                const filas = tablaTorneo.querySelectorAll('tbody tr');
+            for (let i = 1; i <= numJornadas; i++) {
+                const tabla = document.getElementById('tabla-torneo' + i);
+                if (!tabla) continue;
+                const filas = tabla.querySelectorAll('tbody tr');
+
                 filas.forEach(fila => {
-                    const celdas = fila.querySelectorAll('td');
-                    if (celdas.length < 4) return;
+                    const nombreEl = fila.querySelector('.jugador-nombre span');
+                    const imgEl = fila.querySelector('.jugador-nombre img');
+                    const deckEl = fila.querySelector('.jugador-deck');
+                    const puntosEl = fila.querySelector('.jugador-puntos');
+                    const posEl = fila.cells[0];
 
-                    const posTexto = celdas[0].textContent.trim();
-                    const pos = parseInt(posTexto.replace('#', '')) || 0;
-                    const nombreSpans = celdas[1].querySelectorAll('span');
-                    const nombre = nombreSpans.length > 0 ? nombreSpans[0].textContent.trim() : celdas[1].textContent.trim();
-                    const img = celdas[1].querySelector('img');
-                    const foto = img ? img.src : '';
-                    const deck = celdas[2].textContent.trim();
-                    const ptsTexto = celdas[3].textContent.trim();
-                    const pts = parseInt(ptsTexto.replace('pts', '').trim()) || 0;
+                    if (nombreEl && puntosEl) {
+                        const nombre = nombreEl.textContent.trim();
+                        const imagen = imgEl ? imgEl.src : '';
+                        const mazo = deckEl ? deckEl.textContent.trim() : 'Desconocido';
+                        const puntos = parseInt(puntosEl.textContent) || 0;
+                        const posicion = posEl ? posEl.textContent.trim() : '#';
 
-                    if (!DB_JUGADORES[nombre]) {
-                        DB_JUGADORES[nombre] = {
-                            nombre: nombre,
-                            foto: foto,
-                            jornadas: {},
-                            totalPuntos: 0,
-                            mazos: {}
-                        };
+                        if (!datosJugadores[nombre]) {
+                            datosJugadores[nombre] = {
+                                nombre: nombre,
+                                imagen: imagen,
+                                puntosTotales: 0,
+                                jornadasJugadas: 0,
+                                historial: Array(numJornadas).fill(null),
+                                mazos: {}
+                            };
+                        }
+
+                        datosJugadores[nombre].puntosTotales += puntos;
+                        datosJugadores[nombre].jornadasJugadas += 1;
+                        datosJugadores[nombre].historial[i - 1] = { jornada: i, posicion, mazo, puntos };
+
+                        if (!datosJugadores[nombre].mazos[mazo]) {
+                            datosJugadores[nombre].mazos[mazo] = { torneos: 0, puntos: 0 };
+                        }
+                        datosJugadores[nombre].mazos[mazo].torneos += 1;
+                        datosJugadores[nombre].mazos[mazo].puntos += puntos;
                     }
-
-                    DB_JUGADORES[nombre].jornadas[`j${j}`] = { pos, pts, deck };
-                    DB_JUGADORES[nombre].totalPuntos += pts;
-                    DB_JUGADORES[nombre].mazos[deck] = (DB_JUGADORES[nombre].mazos[deck] || 0) + 1;
                 });
             }
-
-            generarTablaGeneral();
         }
 
         function generarTablaGeneral() {
-            const tbody = document.getElementById('body-general');
-            if (!tbody) return;
-            tbody.innerHTML = '';
+            procesarDatosTorneos();
+            const bodyGeneral = document.getElementById('body-general');
+            bodyGeneral.innerHTML = '';
 
-            const listaJugadores = Object.values(DB_JUGADORES).sort((a, b) => b.totalPuntos - a.totalPuntos);
+            let arrayJugadores = Object.values(datosJugadores).sort((a, b) => b.puntosTotales - a.puntosTotales);
 
-            listaJugadores.forEach((jugador, index) => {
-                const posicion = index + 1;
+            arrayJugadores.forEach((jugador, index) => {
+                let tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-800/50 cursor-pointer transition";
+                tr.onclick = () => abrirModal(jugador.nombre);
 
-                // 🟢 PUESTOS 1 AL 16: VERDE (emerald-400)
-                // 🔴 PUESTOS 17+: ROJO (rose-400)
-                const colorPosicion = posicion <= 16 
-                    ? 'text-emerald-400 font-extrabold' 
-                    : 'text-rose-400 font-extrabold';
+                let celdasHTML = `<td class="p-3 text-center font-bold text-amber-400">#${index + 1}</td>`;
+                celdasHTML += `<td class="p-3 font-bold flex items-center space-x-3">
+                    <img src="${jugador.imagen}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(jugador.nombre)}&background=0f172a&color=f59e0b';" class="w-8 h-8 rounded-full object-cover border border-amber-500/40">
+                    <span>${jugador.nombre}</span>
+                </td>`;
 
-                const fila = document.createElement('tr');
-                fila.className = 'hover:bg-slate-800/50 transition cursor-pointer';
-                fila.onclick = () => abrirModal(jugador.nombre);
-
-                let celdasJornadas = '';
-                for (let j = 1; j <= 10; j++) {
-                    const datosJ = jugador.jornadas[`j${j}`];
-                    celdasJornadas += `<td class="p-3 text-center text-slate-400">${datosJ ? datosJ.pts : '-'}</td>`;
+                for (let i = 0; i < numJornadas; i++) {
+                    let datoJornada = jugador.historial[i];
+                    let contenidoCelda = datoJornada ? `<span class="text-amber-300 font-semibold">${datoJornada.puntos}</span><span class="text-[10px] text-slate-500 block">(${datoJornada.posicion})</span>` : `<span class="text-slate-600">-</span>`;
+                    celdasHTML += `<td class="p-3 text-center">${contenidoCelda}</td>`;
                 }
 
-                fila.innerHTML = `
-                    <td class="p-3 text-center ${colorPosicion}">#${posicion}</td>
-                    <td class="p-3 font-semibold text-slate-200 flex items-center space-x-3">
-                        <img src="${jugador.foto}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(jugador.nombre)}&background=0f172a&color=f59e0b';" class="w-7 h-7 rounded-full object-cover border border-slate-700">
-                        <span>${jugador.nombre}</span>
-                    </td>
-                    ${celdasJornadas}
-                    <td class="p-3 text-center font-black text-amber-400">${jugador.totalPuntos}</td>
-                `;
-
-                tbody.appendChild(fila);
+                celdasHTML += `<td class="p-3 text-center font-black text-amber-400 text-base">${jugador.puntosTotales}</td>`;
+                tr.innerHTML = celdasHTML;
+                bodyGeneral.appendChild(tr);
             });
         }
 
-        function abrirModal(nombre) {
-            const jugador = DB_JUGADORES[nombre];
+        function abrirModal(nombreJugador) {
+            let jugador = datosJugadores[nombreJugador];
             if (!jugador) return;
 
             document.getElementById('modal-nombre').textContent = jugador.nombre;
-            document.getElementById('modal-foto').src = jugador.foto;
-            document.getElementById('modal-pts').textContent = jugador.totalPuntos;
+            document.getElementById('modal-foto').src = jugador.imagen;
+            document.getElementById('modal-pts').textContent = jugador.puntosTotales;
+            document.getElementById('modal-jornadas').textContent = jugador.jornadasJugadas;
 
-            const numJornadas = Object.keys(jugador.jornadas).length;
-            document.getElementById('modal-jornadas').textContent = numJornadas;
-
-            const promedio = numJornadas > 0 ? (jugador.totalPuntos / numJornadas).toFixed(1) : '0';
+            let promedio = jugador.jornadasJugadas > 0 ? (jugador.puntosTotales / jugador.jornadasJugadas).toFixed(1) : 0;
             document.getElementById('modal-promedio').textContent = promedio;
 
-            const maxPtsPosibles = numJornadas * 12;
-            const winrate = maxPtsPosibles > 0 ? Math.round((jugador.totalPuntos / maxPtsPosibles) * 100) : 0;
-            document.getElementById('modal-winrate').textContent = `${winrate}%`;
+            let maxPosibleTotal = jugador.jornadasJugadas * 12;
+            let winrateGlobal = maxPosibleTotal > 0 ? Math.round((jugador.puntosTotales / maxPosibleTotal) * 100) : 0;
+            document.getElementById('modal-winrate').textContent = winrateGlobal + '%';
 
-            const contenedorMazos = document.getElementById('modal-mazos');
-            contenedorMazos.innerHTML = '';
-            Object.entries(jugador.mazos).forEach(([deck, cant]) => {
-                const div = document.createElement('div');
-                div.className = 'bg-slate-950/60 border border-slate-800 p-3 rounded-lg flex justify-between items-center';
-                div.innerHTML = `<span class="font-medium text-slate-200">${deck}</span> <span class="text-xs bg-amber-500/20 text-amber-400 px-2 py-1 rounded font-bold">${cant} torneo(s)</span>`;
-                contenedorMazos.appendChild(div);
+            // Mazos jugados con su Winrate específico
+            let mazosContainer = document.getElementById('modal-mazos');
+            mazosContainer.innerHTML = '';
+            Object.keys(jugador.mazos).forEach(mazoNombre => {
+                let mazoData = jugador.mazos[mazoNombre];
+                let maxPosibleMazo = mazoData.torneos * 12;
+                let winrateMazo = maxPosibleMazo > 0 ? Math.round((mazoData.puntos / maxPosibleMazo) * 100) : 0;
+
+                mazosContainer.innerHTML += `
+                    <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3 flex justify-between items-center">
+                        <div>
+                            <span class="text-slate-200 font-semibold block">${mazoNombre}</span>
+                            <span class="text-xs text-slate-400">${mazoData.torneos} torneo(s) jugado(s)</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-emerald-400 font-bold text-lg">${winrateMazo}%</span>
+                            <span class="text-[10px] text-slate-500 block uppercase">Winrate</span>
+                        </div>
+                    </div>
+                `;
             });
 
-            const tbodyHistorial = document.getElementById('modal-historial');
-            tbodyHistorial.innerHTML = '';
-            for (let j = 1; j <= 10; j++) {
-                const datos = jugador.jornadas[`j${j}`];
-                if (datos) {
-                    const tr = document.createElement('tr');
-                    tr.className = 'hover:bg-slate-900/50';
-                    tr.innerHTML = `
-                        <td class="p-3 text-slate-300">Jornada ${j}</td>
-                        <td class="p-3 text-amber-400 font-bold">#${datos.pos}</td>
-                        <td class="p-3 text-slate-300">${datos.deck}</td>
-                        <td class="p-3 text-right font-bold text-amber-300">${datos.pts} pts</td>
+            // Historial de Torneos en el Modal
+            let historialContainer = document.getElementById('modal-historial');
+            historialContainer.innerHTML = '';
+            jugador.historial.forEach((item, index) => {
+                if (item) {
+                    historialContainer.innerHTML += `
+                        <tr class="hover:bg-slate-900/50">
+                            <td class="p-3 text-slate-300">Jornada ${index + 1}</td>
+                            <td class="p-3 font-bold text-amber-400">${item.posicion}</td>
+                            <td class="p-3 text-slate-300">${item.mazo}</td>
+                            <td class="p-3 text-right font-bold text-amber-300">${item.puntos} pts</td>
+                        </tr>
                     `;
-                    tbodyHistorial.appendChild(tr);
                 }
-            }
+            });
 
             document.getElementById('modal-jugador').classList.remove('hidden');
         }
@@ -385,9 +392,9 @@
             document.getElementById('modal-jugador').classList.add('hidden');
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            procesarDatos();
-        });
+        window.onload = function() {
+            generarTablaGeneral();
+        };
     </script>
 </body>
 </html>
