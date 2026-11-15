@@ -42,8 +42,7 @@
 
     <main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
         <h2 class="text-3xl font-bold text-amber-400 mb-2">Metagame & Estadísticas</h2>
-        <p class="text-slate-400 text-sm mb-6"><i class="fa-solid fa-hand-pointer mr-1.5 text-amber-500"></i>Haz clic en cualquier mazo de la tabla para ver su lista detallada.</p>
-
+        
         <!-- RESUMEN DE CARDS -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg flex items-center space-x-4">
@@ -166,18 +165,40 @@
             "BG Wurm": "img/decks/bg.jpg",
             "Gro-A-Tog": "img/decks/gro.jpg",
             "Survival Opposition": "img/decks/survival.jpg",
-            "Solution": "img/decks/solution.jpg",
+            "The Solution": "img/decks/solution.jpg",
             "Land Destruction": "img/decks/land.jpg",
             "Mono Green Beast": "img/decks/mono_green.jpg",
-            "Stasis": "img/decks/stasis.jpg"
+            "Stasis": "img/decks/stasis.jpg",
+            "BG Gamekeeper": "img/decks/gamekeeper.jpg"
+
         };
 
         // ENLACES PERSONALIZADOS DE CADA DECK (Añade aquí los enlaces de tcdecks u otras plataformas que prefieras)
         const ENLACES_DECKS = {
+            "Burn": "https://www.tcdecks.net/visualview.php?id=44977&iddeck=472303",
+            "Goblins": "https://www.tcdecks.net/visualview.php?id=44960&iddeck=472168", 
+            "Stiflenought": "https://www.tcdecks.net/visualview.php?id=44974&iddeck=472273", 
+            "Replenish": "https://www.tcdecks.net/visualview.php?id=44975&iddeck=472291", 
+            "The Rock": "https://www.tcdecks.net/visualview.php?id=44899&iddeck=471577", 
             "Terrageddon": "https://www.tcdecks.net/visualview.php?id=44972&iddeck=472256",
-            "RG Zoo": "https://www.tcdecks.net/visualview.php?id=44972&iddeck=472250", // Ejemplo configurable
-            "Enchantress": "https://www.tcdecks.net/visualview.php?id=44972&iddeck=472251", // Ejemplo configurable
-            // Si un mazo no tiene enlace aquí, generará una búsqueda automática o un mensaje por defecto.
+            "MonoBlack": "https://www.tcdecks.net/visualview.php?id=44962&iddeck=472190",
+            "Enchantress": "https://www.tcdecks.net/visualview.php?id=44975&iddeck=472289",
+            "Madness": "https://www.tcdecks.net/visualview.php?id=44958&iddeck=472151",
+            "RG Zoo": "https://www.tcdecks.net/visualview.php?id=44969&iddeck=472237",
+            "Minotauros": "https://www.tcdecks.net/visualview.php?id=43855&iddeck=461298",
+            "Psychatog": "https://www.tcdecks.net/visualview.php?id=44971&iddeck=472248", 
+            "Oath": "https://www.tcdecks.net/visualview.php?id=44940&iddeck=471970",
+            "Landstill": "https://www.tcdecks.net/visualview.php?id=44975&iddeck=472284",
+            "Full English Breakfast": "https://www.tcdecks.net/visualview.php?id=44975&iddeck=472293",
+            "Reanimator": "https://www.tcdecks.net/visualview.php?id=44935&iddeck=471889",
+            "BG Wurm": "https://www.tcdecks.net/visualview.php?id=42490&iddeck=446957",
+            "Gro-A-Tog": "https://www.tcdecks.net/visualview.php?id=44962&iddeck=472187",
+            "Survival Opposition": "https://www.tcdecks.net/visualview.php?id=44953&iddeck=472114",
+            "The Solution": "https://www.tcdecks.net/visualview.php?id=44262&iddeck=465434",
+            "Land Destruction": "https://www.tcdecks.net/visualview.php?id=44940&iddeck=471964",
+            "Mono Green Beast": "https://www.tcdecks.net/visualview.php?id=44945&iddeck=472019",
+            "Stasis": "https://www.tcdecks.net/visualview.php?id=44960&iddeck=472161",
+            "BG Gamekeeper": "https://www.tcdecks.net/visualview.php?id=44953&iddeck=472117"            
         };
 
         function obtenerImagenDeck(nombreDeck) {
