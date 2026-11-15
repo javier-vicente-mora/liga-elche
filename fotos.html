@@ -55,14 +55,14 @@
     </footer>
 
     <script>
-        // Añade aquí las imágenes que tengas dentro de la carpeta "img/"
+        // Añade aquí las imágenes y su respectivo texto (caption)
         const misFotos = [
-          { url: 'img/fotos/foto1.jpg' },
-          { url: 'img/fotos/foto2.jpg' },
-          { url: 'img/fotos/foto3.jpg' },
-          { url: 'img/fotos/foto4.jpg' },
-          { url: 'img/fotos/foto5.jpg' },
-          { url: 'img/fotos/foto6.jpg' }
+          { url: 'img/fotos/foto1.jpg', caption: 'Jornada 1 - Enero 2027' },
+          { url: 'img/fotos/foto2.jpg', caption: 'Jornada 1 - Enero 2027' },
+          { url: 'img/fotos/foto3.jpg', caption: 'Jornada 1 - Enero 2027 ' },
+          { url: 'img/fotos/foto4.jpg', caption: 'Jornada 1 - Enero 2027' },
+          { url: 'img/fotos/foto5.jpg', caption: 'Jornada 1 - Enero 2027' },
+          { url: 'img/fotos/foto6.jpg', caption: 'Jornada 1 - Enero 2027' }
         ];
 
         const grid = document.getElementById('photo-grid');
@@ -71,7 +71,9 @@
             div.className = 'overflow-hidden rounded-xl bg-slate-900 border border-slate-800 shadow-lg';
             div.innerHTML = `
                 <img src="${photo.url}" onerror="this.onerror=null; this.src='https://placehold.co/600x400/1e293b/d4af37?text=Sin+Imagen';" class="w-full h-56 object-cover">
-                <div class="p-3"></div>
+                <div class="p-4">
+                    <p class="text-sm text-slate-300 text-center font-medium">${photo.caption || ''}</p>
+                </div>
             `;
             grid.appendChild(div);
         });

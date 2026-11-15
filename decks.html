@@ -41,7 +41,8 @@
     </header>
 
     <main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
-        <h2 class="text-3xl font-bold text-amber-400 mb-6">Metagame & Estadísticas</h2>
+        <h2 class="text-3xl font-bold text-amber-400 mb-2">Metagame & Estadísticas</h2>
+        <p class="text-slate-400 text-sm mb-6"><i class="fa-solid fa-hand-pointer mr-1.5 text-amber-500"></i>Haz clic en cualquier mazo de la tabla para ver su lista detallada.</p>
 
         <!-- RESUMEN DE CARDS -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -106,6 +107,35 @@
         </div>
     </main>
 
+    <!-- VENTANA MODAL PARA VER EL DECK -->
+    <div id="modal-deck" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-amber-500/30 rounded-2xl w-full max-w-5xl h-[85vh] overflow-hidden shadow-2xl flex flex-col relative">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-amber-950/50 via-slate-900 to-slate-900 p-4 border-b border-slate-800 flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <img id="modal-deck-img" src="" class="w-10 h-10 rounded-full object-cover border border-amber-400">
+                    <h3 id="modal-deck-title" class="text-xl font-extrabold text-amber-400">Lista de Deck</h3>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <a id="modal-deck-external" href="#" target="_blank" class="text-xs bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/30 px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5">
+                        <i class="fa-solid fa-external-link-alt"></i>
+                        <span>Abrir en navegador</span>
+                    </a>
+                    <button onclick="cerrarModalDeck()" class="text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-700 w-8 h-8 rounded-full flex items-center justify-center transition">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Modal Body (Iframe con la web del deck) -->
+            <div class="flex-grow bg-slate-950 relative">
+                <div id="modal-loading" class="absolute inset-0 flex items-center justify-center text-amber-400 bg-slate-950/90 z-10">
+                    <i class="fa-solid fa-spinner fa-spin text-3xl mr-3"></i> Cargando lista del deck...
+                </div>
+                <iframe id="modal-deck-iframe" src="" class="w-full h-full border-0" onload="document.getElementById('modal-loading').style.display='none';"></iframe>
+            </div>
+        </div>
+    </div>
+
     <footer class="bg-slate-950 border-t border-slate-900 py-6 text-center text-slate-500 text-xs">
         &copy; 2027 Liga Premodern Elche.
     </footer>
@@ -140,7 +170,14 @@
             "Land Destruction": "img/decks/land.jpg",
             "Mono Green Beast": "img/decks/mono_green.jpg",
             "Stasis": "img/decks/stasis.jpg"
+        };
 
+        // ENLACES PERSONALIZADOS DE CADA DECK (Añade aquí los enlaces de tcdecks u otras plataformas que prefieras)
+        const ENLACES_DECKS = {
+            "Terrageddon": "https://www.tcdecks.net/visualview.php?id=44972&iddeck=472256",
+            "RG Zoo": "https://www.tcdecks.net/visualview.php?id=44972&iddeck=472250", // Ejemplo configurable
+            "Enchantress": "https://www.tcdecks.net/visualview.php?id=44972&iddeck=472251", // Ejemplo configurable
+            // Si un mazo no tiene enlace aquí, generará una búsqueda automática o un mensaje por defecto.
         };
 
         function obtenerImagenDeck(nombreDeck) {
@@ -149,6 +186,41 @@
             }
             const nombreNormalizado = nombreDeck.toLowerCase().replace(/\s+/g, '');
             return `img/decks/${nombreNormalizado}.jpg`;
+        }
+
+        function abrirModalDeck(nombreDeck) {
+            const modal = document.getElementById('modal-deck');
+            const iframe = document.getElementById('modal-deck-iframe');
+            const title = document.getElementById('modal-deck-title');
+            const imgHeader = document.getElementById('modal-deck-img');
+            const externalLink = document.getElementById('modal-deck-external');
+            const loading = document.getElementById('modal-loading');
+
+            title.textContent = "Mazo: " + nombreDeck;
+            imgHeader.src = obtenerImagenDeck(nombreDeck);
+            loading.style.display = 'flex';
+
+            // Obtener enlace configurado o crear uno de respaldo
+            let urlDeck = ENLACES_DECKS[nombreDeck];
+            if (!urlUrlDeck && urlDeck) {
+                // si existe
+            }
+            
+            if (!urlDeck) {
+                // Enlace de respaldo genérico si no se ha especificado el enlace exacto aún
+                urlDeck = `https://www.tcdecks.net/deck.php?id=44972`; 
+            }
+
+            externalLink.href = urlDeck;
+            iframe.src = urlDeck;
+            modal.classList.remove('hidden');
+        }
+
+        function cerrarModalDeck() {
+            const modal = document.getElementById('modal-deck');
+            const iframe = document.getElementById('modal-deck-iframe');
+            modal.classList.add('hidden');
+            iframe.src = ''; // Limpiar iframe para detener carga
         }
 
         document.addEventListener("DOMContentLoaded", function () {
@@ -177,7 +249,9 @@
                             const puntosEl = fila.querySelector('.jugador-puntos');
 
                             if (deckEl && puntosEl) {
-                                const deck = deckEl.textContent.trim();
+                                // Extraer texto limpio del mazo
+                                const deckSpan = deckEl.querySelector('span');
+                                const deck = deckSpan ? deckSpan.textContent.trim() : deckEl.textContent.trim();
                                 const puntos = parseInt(puntosEl.textContent, 10) || 0;
 
                                 if (!deck || deck === '-') return;
@@ -211,7 +285,6 @@
 
                     document.getElementById('total-decks').textContent = listaDecks.length;
                     
-                    // Actualización Mazo Más Popular
                     if (listaDecks.length > 0) {
                         const topPopular = listaDecks[0];
                         document.getElementById('top-deck').textContent = topPopular.nombre;
@@ -222,7 +295,6 @@
                         document.getElementById('top-deck').textContent = '-';
                     }
 
-                    // Actualización Mayor Winrate
                     if (topWinrateDeck) {
                         document.getElementById('top-winrate-deck').textContent = `${topWinrateDeck.nombre} (${topWinrateDeck.winrate}%)`;
                         const imgWinrate = document.getElementById('top-winrate-deck-img');
@@ -240,6 +312,7 @@
                         return;
                     }
 
+                    listaDecks.examples = [];
                     listaDecks.forEach((item, index) => {
                         const metaPorcentaje = usosTotales > 0 ? ((item.vecesJugado / usosTotales) * 100).toFixed(1) : 0;
                         
@@ -250,7 +323,10 @@
                         const rutaImagen = obtenerImagenDeck(item.nombre);
 
                         const tr = document.createElement('tr');
-                        tr.className = 'hover:bg-slate-800/50 transition border-b border-slate-800/50';
+                        tr.className = 'hover:bg-slate-800/50 cursor-pointer transition border-b border-slate-800/50';
+                        // Evento clic para abrir la ventana modal con la lista del mazo
+                        tr.onclick = () => abrirModalDeck(item.nombre);
+
                         tr.innerHTML = `
                             <td class="p-4 text-center font-bold text-amber-400">#${index + 1}</td>
                             <td class="p-4 font-bold text-white">
@@ -259,7 +335,7 @@
                                          alt="${item.nombre}" 
                                          onerror="this.onerror=null; this.src='https://placehold.co/80x80/1e293b/d4af37?text=MTG';" 
                                          class="w-9 h-9 rounded-full object-cover border border-amber-500/40 shadow-sm flex-shrink-0">
-                                    <span>${item.nombre}</span>
+                                    <span class="hover:underline text-amber-300">${item.nombre}</span>
                                 </div>
                             </td>
                             <td class="p-4 text-center font-semibold text-slate-300">${item.vecesJugado}</td>
