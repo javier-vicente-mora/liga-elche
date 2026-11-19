@@ -226,8 +226,8 @@
         </div>
     </div>
 
-    <!-- MODAL PARA VER FOTO DEL MAZO JUGADO -->
-    <div id="modal-foto-mazo" onclick="cerrarModalFotoMazo()" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+    <!-- MODAL PARA VER FOTO DEL MAZO JUGADO (z-[60] para verse por encima del perfil del jugador) -->
+    <div id="modal-foto-mazo" onclick="cerrarModalFotoMazo()" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden z-[60] flex items-center justify-center p-4">
         <div onclick="event.stopPropagation()" class="bg-slate-900 border-2 border-amber-500/40 rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl transform transition-all">
             <!-- Cabecera del Modal -->
             <div class="bg-gradient-to-r from-amber-950/60 via-slate-900 to-slate-900 px-6 py-4 border-b border-slate-800 flex justify-between items-center">
@@ -309,6 +309,28 @@
             return `img/decks/${nombreNormalizado}.jpg`;
         }
 
+        // Función auxiliar para añadir el botón de cámara si existe la foto del mazo
+        function adjuntarBotonCamaraSiExiste(contenedor, rutaFoto, nombreMazo, nombreJugador, jornada) {
+            if (!nombreMazo || nombreMazo === '.*') return;
+
+            const imgTest = new Image();
+            imgTest.onload = function() {
+                const btnCamara = document.createElement('button');
+                btnCamara.type = 'button';
+                btnCamara.title = `Ver foto del mazo de ${nombreJugador} (J${jornada})`;
+                btnCamara.className = "ml-1.5 text-amber-400 hover:text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 px-2 py-0.5 rounded-md transition transform hover:scale-110 inline-flex items-center shadow-sm";
+                btnCamara.innerHTML = `<i class="fa-solid fa-camera text-xs"></i>`;
+                
+                btnCamara.onclick = function(e) {
+                    e.stopPropagation();
+                    abrirModalFotoMazo(rutaFoto, nombreMazo, nombreJugador, jornada);
+                };
+
+                contenedor.appendChild(btnCamara);
+            };
+            imgTest.src = rutaFoto;
+        }
+
         // Base de datos de jugadores y procesamiento automático
         const numJornadas = 10;
         let datosJugadores = {};
@@ -338,6 +360,11 @@
                         const puntos = parseInt(puntosEl.textContent) || 0;
                         const posicion = posEl ? posEl.textContent.trim() : '#';
 
+                        // Guardamos también la ruta esperada de la foto de esa jornada
+                        const archivoCustom = fila.getAttribute('data-foto');
+                        const nombreArchivo = archivoCustom ? archivoCustom : `j${i}_${limpiarNombreArchivo(nombre)}.png`;
+                        const rutaFoto = `img/fotos_mazos/${nombreArchivo}`;
+
                         if (!datosJugadores[nombre]) {
                             datosJugadores[nombre] = {
                                 nombre: nombre,
@@ -351,7 +378,7 @@
 
                         datosJugadores[nombre].puntosTotales += puntos;
                         datosJugadores[nombre].jornadasJugadas += 1;
-                        datosJugadores[nombre].historial[i - 1] = { jornada: i, posicion, mazo, puntos };
+                        datosJugadores[nombre].historial[i - 1] = { jornada: i, posicion, mazo, puntos, rutaFoto };
 
                         if (!datosJugadores[nombre].mazos[mazo]) {
                             datosJugadores[nombre].mazos[mazo] = { torneos: 0, puntos: 0 };
@@ -434,24 +461,33 @@
                 `;
             });
 
+            // Historial de Torneos en el Modal usando createElement para no perder referencias
             let historialContainer = document.getElementById('modal-historial');
             historialContainer.innerHTML = '';
+            
             jugador.historial.forEach((item, index) => {
                 if (item) {
                     let rutaImagenMazo = obtenerImagenDeck(item.mazo);
-                    historialContainer.innerHTML += `
-                        <tr class="hover:bg-slate-900/50">
-                            <td class="p-3 text-slate-300">Jornada ${index + 1}</td>
-                            <td class="p-3 font-bold text-amber-400">${item.posicion}</td>
-                            <td class="p-3 text-slate-300">
-                                <div class="flex items-center space-x-2">
-                                    <img src="${rutaImagenMazo}" alt="${item.mazo}" onerror="this.onerror=null; this.src='https://placehold.co/80x80/1e293b/d4af37?text=MTG';" class="w-6 h-6 rounded-full object-cover border border-amber-500/40 flex-shrink-0">
-                                    <span>${item.mazo}</span>
-                                </div>
-                            </td>
-                            <td class="p-3 text-right font-bold text-amber-300">${item.puntos} pts</td>
-                        </tr>
+                    let tr = document.createElement('tr');
+                    tr.className = "hover:bg-slate-900/50";
+                    
+                    tr.innerHTML = `
+                        <td class="p-3 text-slate-300">Jornada ${index + 1}</td>
+                        <td class="p-3 font-bold text-amber-400">${item.posicion}</td>
+                        <td class="p-3 text-slate-300">
+                            <div class="contenedor-mazo-historial flex items-center space-x-2">
+                                <img src="${rutaImagenMazo}" alt="${item.mazo}" onerror="this.onerror=null; this.src='https://placehold.co/80x80/1e293b/d4af37?text=MTG';" class="w-6 h-6 rounded-full object-cover border border-amber-500/40 flex-shrink-0">
+                                <span>${item.mazo}</span>
+                            </div>
+                        </td>
+                        <td class="p-3 text-right font-bold text-amber-300">${item.puntos} pts</td>
                     `;
+
+                    historialContainer.appendChild(tr);
+
+                    // Buscamos el contenedor directamente dentro de esta fila recién creada
+                    const contenedorMazo = tr.querySelector('.contenedor-mazo-historial');
+                    adjuntarBotonCamaraSiExiste(contenedorMazo, item.rutaFoto, item.mazo, jugador.nombre, index + 1);
                 }
             });
 
@@ -488,31 +524,11 @@
                     const nombreJugador = nombreEl.textContent.trim();
                     const nombreMazo = deckNombreEl.textContent.trim();
 
-                    // Si no hay mazo definido (como ".*"), no muestra cámara
-                    if (!nombreMazo || nombreMazo === '.*') return;
-
-                    // Busca img/fotos_mazos/j1_tomas_lillo.png (o el atributo data-foto si lo pones a mano)
                     const archivoCustom = fila.getAttribute('data-foto');
                     const nombreArchivo = archivoCustom ? archivoCustom : `j${i}_${limpiarNombreArchivo(nombreJugador)}.png`;
                     const rutaFoto = `img/fotos_mazos/${nombreArchivo}`;
 
-                    // Comprueba si el .png existe en la carpeta antes de pintar el botón
-                    const imgTest = new Image();
-                    imgTest.onload = function() {
-                        const btnCamara = document.createElement('button');
-                        btnCamara.type = 'button';
-                        btnCamara.title = `Ver foto del mazo de ${nombreJugador}`;
-                        btnCamara.className = "ml-1.5 text-amber-400 hover:text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 px-2 py-0.5 rounded-md transition transform hover:scale-110 inline-flex items-center shadow-sm";
-                        btnCamara.innerHTML = `<i class="fa-solid fa-camera text-xs"></i>`;
-                        
-                        btnCamara.onclick = function(e) {
-                            e.stopPropagation();
-                            abrirModalFotoMazo(rutaFoto, nombreMazo, nombreJugador, i);
-                        };
-
-                        deckContenedor.appendChild(btnCamara);
-                    };
-                    imgTest.src = rutaFoto;
+                    adjuntarBotonCamaraSiExiste(deckContenedor, rutaFoto, nombreMazo, nombreJugador, i);
                 });
             }
         }
@@ -529,11 +545,15 @@
             document.getElementById('foto-mazo-img').src = '';
         }
 
-        // Cerrar modales con la tecla Escape
+        // Cerrar modales con la tecla Escape (si está abierta la foto, cierra primero la foto)
         document.addEventListener('keydown', function(event) {
             if (event.key === "Escape") {
-                cerrarModal();
-                cerrarModalFotoMazo();
+                const modalFoto = document.getElementById('modal-foto-mazo');
+                if (!modalFoto.classList.contains('hidden')) {
+                    cerrarModalFotoMazo();
+                } else {
+                    cerrarModal();
+                }
             }
         });
 
